@@ -1,0 +1,347 @@
+openapi: 3.0.3
+info:
+  title: Swagger Auth 3.0
+  description: |-
+    Esta API fornece metodos para gerenciar usuários.
+  version: 1.0.0
+servers:
+  - url: "http://example.com/v1"
+tags:
+  - name: user
+    description: Operações sobre usuários
+paths:
+  /user:
+    post:
+      tags:
+        - user
+      summary: Cria um usuário
+      description: Cria um usuário
+      operationId: createUser
+      requestBody:
+        description: Dados para criação do usuário
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/User"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "201":
+          description: Operação realizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Usuário inválido
+      security:
+        - api_key: []
+        - basic_auth:
+            - write:users
+      x-amazon-apigateway-request-validator: all
+      x-amazon-apigateway-integration:
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/${lambda_arn}/invocations"
+        passthroughBehavior: "when_no_match"
+        payloadFormatVersion: "1.0"
+  /user/{id}:
+    get:
+      tags:
+        - user
+      summary: Retorna os dados de um usuário através do seu ID
+      description: ""
+      operationId: getUserByID
+      parameters:
+        - name: id
+          in: path
+          description: ID do usuário que deseja localizar
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Operação realizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Usuário inválido
+      security:
+        - api_key: []
+        - basic_auth:
+            - write:users
+            - read:users
+      x-amazon-apigateway-request-validator: all
+      x-amazon-apigateway-integration:
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/${lambda_arn}/invocations"
+        passthroughBehavior: "when_no_match"
+        payloadFormatVersion: "1.0"
+    put:
+      tags:
+        - user
+      summary: Atualiza informações do usuário
+      description: Atualiza informações do usuário
+      operationId: updateUser
+      parameters:
+        - name: id
+          in: path
+          description: ID do usuário que deseja atualizar
+          required: true
+          schema:
+            type: string
+      requestBody:
+        description: Dados para atualização do usuário
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/User"
+          application/xml:
+            schema:
+              $ref: "#/components/schemas/User"
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: "#/components/schemas/User"
+      responses:
+        "200":
+          description: Operação realizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Usuário inválido
+      security:
+        - api_key: []
+        - basic_auth:
+            - write:users
+      x-amazon-apigateway-request-validator: all
+      x-amazon-apigateway-integration:
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/${lambda_arn}/invocations"
+        passthroughBehavior: "when_no_match"
+        payloadFormatVersion: "1.0"
+    delete:
+      tags:
+        - user
+      summary: Apaga o usuário
+      description: Apaga o usuário
+      operationId: deleteUser
+      parameters:
+        - name: id
+          in: path
+          description: ID do usuário que deseja apagar
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Operação realizada com sucesso
+        "400":
+          description: Usuário inválido
+      security:
+        - api_key: []
+        - basic_auth:
+            - write:users
+      x-amazon-apigateway-request-validator: all
+      x-amazon-apigateway-integration:
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/${lambda_arn}/invocations"
+        passthroughBehavior: "when_no_match"
+        payloadFormatVersion: "1.0"
+  /user/username/{userName}:
+    get:
+      tags:
+        - user
+      summary: Retorna os dados de um usuário através do seu nome
+      description: ""
+      operationId: getUserByName
+      parameters:
+        - name: userName
+          in: path
+          description: Nome do usuário que deseja localizar
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Operação realizada com sucesso
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+            application/xml:
+              schema:
+                $ref: "#/components/schemas/User"
+        "400":
+          description: Usuário inválido
+      security:
+        - api_key: []
+        - basic_auth:
+            - write:users
+            - read:users
+      x-amazon-apigateway-request-validator: all
+      x-amazon-apigateway-integration:
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/${lambda_arn}/invocations"
+        passthroughBehavior: "when_no_match"
+        payloadFormatVersion: "1.0"
+  /user/find:
+    get:
+      tags:
+        - user
+      summary: Pesquisa usuários através de vários filtros
+      description: Pesquisa usuários através de vários filtros
+      operationId: findUsers
+      parameters:
+        - name: firstName
+          in: query
+          description: Primeiro nome do usuário a ser pesquisado
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: lastName
+          in: query
+          description: Sobrenome do usuário a ser pesquisado
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: email
+          in: query
+          description: Email do usuário a ser pesquisado
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: userStatus
+          in: query
+          description: Status do usuário a ser pesquisado
+          required: false
+          explode: true
+          schema:
+            type: integer
+            format: int32
+        - name: createdStart
+          in: query
+          description: Data de criação maior ou igual à (em formato ISO)
+          required: false
+          explode: true
+          schema:
+            type: string
+        - name: createdEnd
+          in: query
+          description: Data de criação menor ou igual à (em formato ISO)
+          required: false
+          explode: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Operação realizada com sucesso
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+            application/xml:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+        "400":
+          description: Usuário inválido
+      security:
+        - basic_auth:
+            - read:users
+      x-amazon-apigateway-request-validator: all
+      x-amazon-apigateway-integration:
+        type: "aws_proxy"
+        httpMethod: "POST"
+        uri: "arn:aws:apigateway:${region}:lambda:path/2015-03-31/functions/${lambda_arn}/invocations"
+        passthroughBehavior: "when_no_match"
+        payloadFormatVersion: "1.0"
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - username
+        - firstName
+        - lastName
+        - email
+        - password
+      properties:
+        _id:
+          type: string
+          example: "6327502b0d02f57051e9643c"
+        userName:
+          type: string
+          example: "rbalboa"
+        firstName:
+          type: string
+          example: "Rocky"
+        lastName:
+          type: string
+          example: "Balboa"
+        email:
+          type: string
+          example: "rocky.balboa@email.com"
+        password:
+          type: string
+          example: "12345"
+        phone:
+          type: string
+          example: "12345"
+        userStatus:
+          type: integer
+          description: indica se o usuário esta ativo, onde 0=inativo e 1=ativo
+          format: int32
+          example: 1
+        created:
+          type: string
+          description: data de criação do registro em format ISO
+          example: "2022-09-18T14:04:20.454Z"
+      xml:
+        name: user
+  securitySchemes:
+    basic_auth:
+      type: oauth2
+      flows:
+        implicit:
+          authorizationUrl: https://authurl/oauth/authorize
+          scopes:
+            write:users: permite operações de leitura e modificação de usuários
+            read:users: permite apenas operações de leitura
+    api_key:
+      type: apiKey
+      name: api_key
+      in: header
+x-amazon-apigateway-request-validators:
+  all:
+    validateRequestBody: true
+    validateRequestParameters: true
+  params-only:
+    validateRequestBody: false
+    validateRequestParameters: true
